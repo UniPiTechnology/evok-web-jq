@@ -779,6 +779,7 @@ function syncDevice(msg) {
         case "ao": {
             $('#outputs_list').append(li);
             $('#' + main_el.id).slider();
+            $('#' + main_el.id)[0].readOnly = true;
             $('#outputs_list').listview('refresh');
             $('#' + main_el.id).bind("slidestop", function (event, ui) {
                 makePostRequest('ao/' + circuit, 'value=' + $(this).val());
