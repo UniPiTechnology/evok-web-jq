@@ -1,15 +1,16 @@
-![unipi logo](https://github.com/UniPiTechnology/evok/raw/master/www/evok/js/jquery/images/unipi-logo-short-cmyk.svg?sanitize=true "Unipi logo")
+![unipi logo](https://github.com/UniPiTechnology/evok-web-jq/raw/main/www/css/images/unipi-logo-short-cmyk.svg?sanitize=true "Unipi logo")
 
-# EVOK WEB
+# EVOK WEB jQ
 
-Evok web is web application for [Evok]. 
-Using Evok REST API and Websocket.
+Evok web is simple web application based on jQuery Mobile for [Evok].
+Web presents the Evok REST API and Websocket.
 
-Evok-web using [Nginx] for publishing.
+To publish website on server, you need to configure and run a http server like [Nginx] or [Apache]
+
 
 ## Installation
 
-Evok can be installed by apt.
+Evok web can be installed by apt.
 You must have Evok installed before. 
 See [Evok installation instructions](https://github.com/UniPiTechnology/evok/docs/installation.md).
 
@@ -21,5 +22,6 @@ apt-get install -y evok-web
 ```
 
 
-[Nginx]:https://www.nginx.com/
+[Nginx]:https://nginx.org/
+[Apache]:https://httpd.apache.org/
 [Evok]:https://github.com/UniPiTechnology/evok
