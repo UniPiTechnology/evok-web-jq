@@ -24,7 +24,7 @@ var timer = null;
 
 var device_counts = {};
 var wd_device_cache = [];
-configuratible_devices = ["input", "relay", "di", "do", "ai", "ao", "led", "wd", "temp"]
+configuratible_devices = ["input", "output", "di", "do", "ai", "ao", "led", "wd", "temp"]
 
 function compare(a,b) {
 	  if (a.circuit < b.circuit) {
@@ -74,7 +74,7 @@ function populateConfigForm(form, device, circuit, data) {
 		}
 		break;
 	}
-	case "relay": {
+	case "output": {
 		if (data.hasOwnProperty("modes") && data.hasOwnProperty("mode")) {
 			var mode_select_field = $("<select>", {"name": "unipi_config_form_mode_select_field", "data-iconpos": "left", "id": "unipi_config_form_mode_select_field"});
 			var mode_label = $("<label>", {"for": "unipi_config_form_mode_select_field"});
@@ -306,8 +306,8 @@ function getConfigurationFormTitle(device) {
 		return "Analog Output Configuration";
 		break;
 	}
-	case "relay": {
-		return "Relay Output Configuration";
+	case "output": {
+		return "Digital Output Configuration";
 	}
 	case "led": {
 		return "User LED Configuration";
@@ -375,6 +375,9 @@ function getDeviceCategoryName(device) {
 	case "relay": {
 		return "Relay Outputs";
 	}
+	case "output": {
+		return "Digital Outputs";
+	}
 	case "led": {
 		return "User LEDs";
 	}
@@ -412,11 +415,6 @@ function populateConfigTab(device, circuit, circuit_display_name, msg) {
 
     var translated_device = device;
 
-    if (translated_device == "relay") {
-    	if (("relay_type" in msg) && msg.relay_type == "digital") {
-    		translated_device = "do";
-    	}
-    }
 	if (translated_device in device_counts) {
 		device_counts[translated_device] += 1;
 	} else {
@@ -497,9 +495,10 @@ function extractDeviceProperties(device, circuit, circuit_display_name, msg) {
 	}
 	case "relay": {
 		device_properties["device_name"] = "Relay " + circuit_display_name;
-    	if (("relay_type" in msg) && msg.relay_type == "digital") {
-    		device_properties["device_name"] = "Digital Output " + circuit_display_name;
-    	}
+		break;
+	}
+	case "output": {
+		device_properties["device_name"] = "Digital Output " + circuit_display_name;
 		break;
 	}
 	case "led": {
@@ -629,6 +628,7 @@ function syncDevice(msg) {
 
         switch (device) {
         case "relay": {}
+		case "output": {}
         case "led": {
             main_el = document.createElement("select");
             main_el.className = "ui-btn-right";
@@ -800,9 +800,6 @@ function syncDevice(msg) {
         }
         case "relay": {
             var divider = document.getElementById("unipi_led_divider");
-        	if (("relay_type" in msg) && msg.relay_type == "digital") {
-        		divider = document.getElementById("unipi_relay_divider");
-        	} 
             var list = document.getElementById("outputs_list");
             list.insertBefore(li, divider);
             $('#' + main_el.id).flipswitch();
@@ -812,6 +809,17 @@ function syncDevice(msg) {
             });
         	break;       	
         }
+		case "output": {
+			divider = document.getElementById("unipi_relay_divider");
+			var list = document.getElementById("outputs_list");
+			list.insertBefore(li, divider);
+			$('#' + main_el.id).flipswitch();
+			$('#outputs_list').listview('refresh');
+			$('#' + main_el.id).bind("change", function (event, ui) {
+				$.postJSON('output/' + circuit, {value: $(this).val})
+			});
+			break;
+		}
         case "input": {
             var divider = document.getElementById("unipi_ai_divider");
             var list = document.getElementById("inputs_list");
@@ -882,6 +890,16 @@ function syncDevice(msg) {
             });
             break;
         }
+		case "output": {
+			//unbind to prevent looping
+			$('#' + main_el.id).unbind("change");
+			$("#" + device_signature + "_value").val(device_properties["value"]).flipswitch("refresh");
+			//and bind again
+			$('#' + main_el.id).bind("change", function (event, ui) {
+				makePostRequest('output/' + circuit, 'value=' + $(this).val());
+			});
+			break;
+		}
         case "led": {
             //unbind to prevent looping
             $('#' + main_el.id).unbind("change");
