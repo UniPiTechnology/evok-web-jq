@@ -986,14 +986,14 @@ legend, .ui-input-text input, .ui-input-search input {
     background-color: #252525;
     border-color: #000;
     color: #fff;
-    text-shadow: 0 1px 0 #f3f3f3
+    text-shadow: 0 1px 0 #111
 }
 
 .ui-body-a, .ui-page-theme-a .ui-body-inherit, html .ui-bar-a .ui-body-inherit, html .ui-body-a .ui-body-inherit, html body .ui-group-theme-a .ui-body-inherit, html .ui-panel-page-container-a {
     background-color: #393939;
     border-color: #000;
     color: #fff;
-    text-shadow: 0 1px 0 #f3f3f3
+    text-shadow: 0 1px 0 #111
 }
 
 .ui-body-a {
@@ -1022,28 +1022,28 @@ legend, .ui-input-text input, .ui-input-search input {
     background-color: #363636;
     border-color: #000;
     color: #fff;
-    text-shadow: 0 1px 0 #f3f3f3
+    text-shadow: 0 1px 0 #111
 }
 
 .ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head + body .ui-btn.ui-btn-a:hover {
     background-color: #121212;
     border-color: #000;
     color: #fff;
-    text-shadow: 0 1px 0 #f3f3f3
+    text-shadow: 0 1px 0 #111
 }
 
 .ui-page-theme-a .ui-btn:active, html .ui-bar-a .ui-btn:active, html .ui-body-a .ui-btn:active, html body .ui-group-theme-a .ui-btn:active, html head + body .ui-btn.ui-btn-a:active {
     background-color: #121212;
     border-color: #000;
     color: #fff;
-    text-shadow: 0 1px 0 #f3f3f3
+    text-shadow: 0 1px 0 #111
 }
 
 .ui-page-theme-a .ui-btn.ui-btn-active, html .ui-bar-a .ui-btn.ui-btn-active, html .ui-body-a .ui-btn.ui-btn-active, html body .ui-group-theme-a .ui-btn.ui-btn-active, html head + body .ui-btn.ui-btn-a.ui-btn-active, .ui-page-theme-a .ui-checkbox-on:after, html .ui-bar-a .ui-checkbox-on:after, html .ui-body-a .ui-checkbox-on:after, html body .ui-group-theme-a .ui-checkbox-on:after, .ui-btn.ui-checkbox-on.ui-btn-a:after, .ui-page-theme-a .ui-flipswitch-active, html .ui-bar-a .ui-flipswitch-active, html .ui-body-a .ui-flipswitch-active, html body .ui-group-theme-a .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active, .ui-page-theme-a .ui-slider-track .ui-btn-active, html .ui-bar-a .ui-slider-track .ui-btn-active, html .ui-body-a .ui-slider-track .ui-btn-active, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active {
     background-color: #159;
     border-color: #000;
     color: #fff;
-    text-shadow: 0 1px 0 #059
+    text-shadow: 0 1px 0 #111
 }
 
 .ui-page-theme-a .ui-radio-on:after, html .ui-bar-a .ui-radio-on:after, html .ui-body-a .ui-radio-on:after, html body .ui-group-theme-a .ui-radio-on:after, .ui-btn.ui-radio-on.ui-btn-a:after {
