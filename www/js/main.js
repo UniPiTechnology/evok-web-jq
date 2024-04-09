@@ -24,7 +24,7 @@ var timer = null;
 
 var device_counts = {};
 var wd_device_cache = [];
-configuratible_devices = ["input", "output", "di", "do", "ai", "ao", "led", "wd", "temp"]
+configuratible_devices = ["input", "relay", "output", "di", "do", "ai", "ao", "led", "wd", "temp"]
 
 function compare(a,b) {
 	  if (a.circuit < b.circuit) {
@@ -104,6 +104,7 @@ function populateConfigForm(form, device, circuit, data) {
 		}
 		break;
 	}
+	case "relay":
 	case "led": {
 		break;
 	}
@@ -305,6 +306,9 @@ function getConfigurationFormTitle(device) {
 	case "ao": {
 		return "Analog Output Configuration";
 		break;
+	}
+	case "relay": {
+		return "Relay Configuration";
 	}
 	case "output": {
 		return "Digital Output Configuration";
