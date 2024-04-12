@@ -973,7 +973,7 @@ legend, .ui-input-text input, .ui-input-search input {
     background-color: #292929;
     border-color: #000;
     color: #fff;
-    text-shadow: 0 1px 0 #eee;
+    text-shadow: 0 1px 0 #111;
     font-weight: 700
 }
 
