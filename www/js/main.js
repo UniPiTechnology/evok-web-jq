@@ -24,7 +24,7 @@ var timer = null;
 
 var device_counts = {};
 var wd_device_cache = [];
-configuratible_devices = ["input", "relay", "output", "di", "do", "ai", "ao", "led", "wd", "temp"]
+configuratible_devices = ["di", "ro", "do", "di", "do", "ai", "ao", "led", "wd", "temp"]
 
 function compare(a,b) {
 	  if (a.circuit < b.circuit) {
@@ -74,7 +74,7 @@ function populateConfigForm(form, device, circuit, data) {
 		}
 		break;
 	}
-	case "output": {
+	case "do": {
 		if (data.hasOwnProperty("modes") && data.hasOwnProperty("mode")) {
 			var mode_select_field = $("<select>", {"name": "unipi_config_form_mode_select_field", "data-iconpos": "left", "id": "unipi_config_form_mode_select_field"});
 			var mode_label = $("<label>", {"for": "unipi_config_form_mode_select_field"});
@@ -104,11 +104,11 @@ function populateConfigForm(form, device, circuit, data) {
 		}
 		break;
 	}
-	case "relay":
+	case "ro":
 	case "led": {
 		break;
 	}
-	case "input": {
+	case "di": {
 		if (data.hasOwnProperty("debounce")) {
 			var debounce_text_field = $("<input>", {"type":"text", "name": "unipi_config_form_debounce_field", "data-wrapper-class": "ui-btn", "id": "unipi_config_form_debounce_field", "value": data.debounce});
 			var debounce_label = $("<label>", {"for": "unipi_config_form_debounce_field"});
@@ -307,16 +307,16 @@ function getConfigurationFormTitle(device) {
 		return "Analog Output Configuration";
 		break;
 	}
-	case "relay": {
+	case "ro": {
 		return "Relay Configuration";
 	}
-	case "output": {
+	case "do": {
 		return "Digital Output Configuration";
 	}
 	case "led": {
 		return "User LED Configuration";
 	}
-	case "input": {
+	case di: {
 		return "Digital Input Configuration";
 	}
 	case "uart": {
@@ -376,16 +376,16 @@ function getDeviceCategoryName(device) {
 		return "Analog Outputs";
 		break;
 	}
-	case "relay": {
+	case "ro": {
 		return "Relay Outputs";
 	}
-	case "output": {
+	case "do": {
 		return "Digital Outputs";
 	}
 	case "led": {
 		return "User LEDs";
 	}
-	case "input": {
+	case "di": {
 		return "Digital Inputs";
 	}
 	case "wd": {
@@ -405,9 +405,6 @@ function getDeviceCategoryName(device) {
 	}
 	case "unit_register": {
 		return "Modbus Registers";
-	}
-	case "do": {
-		return "Digital Outputs";
 	}
 	default: {
 		return "Unknown Device Type";
@@ -497,11 +494,11 @@ function extractDeviceProperties(device, circuit, circuit_display_name, msg) {
         device_properties["value"] = msg.value.toFixed(1);
 		break;
 	}
-	case "relay": {
+	case "ro": {
 		device_properties["device_name"] = "Relay " + circuit_display_name;
 		break;
 	}
-	case "output": {
+	case "do": {
 		device_properties["device_name"] = "Digital Output " + circuit_display_name;
 		break;
 	}
@@ -509,7 +506,7 @@ function extractDeviceProperties(device, circuit, circuit_display_name, msg) {
 		device_properties["device_name"] = "ULED " + circuit_display_name;
 		break;
 	}
-	case "input": {
+	case "di": {
 		device_properties["device_name"] = "Input " + circuit_display_name;
         device_properties["counter"] = msg.counter;
         if ("bitvalue" in msg) {
@@ -631,8 +628,8 @@ function syncDevice(msg) {
         right_div.style = "float: right;"
 
         switch (device) {
-        case "relay": {}
-		case "output": {}
+        case "ro": {}
+		case "do": {}
         case "led": {
             main_el = document.createElement("select");
             main_el.className = "ui-btn-right";
@@ -672,7 +669,7 @@ function syncDevice(msg) {
             //main_el.className = "ui-li-aside";    
             break;
         }
-        case "input": {
+        case "di": {
             cnt_el = document.createElement("h1");
             cnt_el.textContent = device_properties["counter"];
             cnt_el.className = "ui-li-aside";
@@ -802,29 +799,29 @@ function syncDevice(msg) {
             });
         	break;
         }
-        case "relay": {
+        case "ro": {
             var divider = document.getElementById("unipi_led_divider");
             var list = document.getElementById("outputs_list");
             list.insertBefore(li, divider);
             $('#' + main_el.id).flipswitch();
             $('#outputs_list').listview('refresh');
             $('#' + main_el.id).bind("change", function (event, ui) {
-            	$.postJSON('relay/' + circuit, {value: $(this).val})
+            	$.postJSON('ro/' + circuit, {value: $(this).val})
             });
         	break;       	
         }
-		case "output": {
-			divider = document.getElementById("unipi_relay_divider");
+		case "do": {
+			divider = document.getElementById("unipi_ro_divider");
 			var list = document.getElementById("outputs_list");
 			list.insertBefore(li, divider);
 			$('#' + main_el.id).flipswitch();
 			$('#outputs_list').listview('refresh');
 			$('#' + main_el.id).bind("change", function (event, ui) {
-				$.postJSON('output/' + circuit, {value: $(this).val})
+				$.postJSON('do/' + circuit, {value: $(this).val})
 			});
 			break;
 		}
-        case "input": {
+        case "di": {
             var divider = document.getElementById("unipi_ai_divider");
             var list = document.getElementById("inputs_list");
             list.insertBefore(li, divider);
@@ -863,19 +860,6 @@ function syncDevice(msg) {
         	$('#system_list').listview('refresh');
         	break;        	
         }
-        case "light_channel": {
-        	var divider = document.getElementById("unipi_digital_divider");
-        	$("#unipi_light_channel_divider").css("display", "block");
-            var list = document.getElementById("outputs_list");
-            list.insertBefore(li, divider);
-            $('#' + main_el.id).slider();
-        	$('#outputs_list').listview('refresh');
-            $('#' + main_el.id).bind("slidestop", function (event, ui) {
-                makePostRequest('light_channel/' + circuit, 'broadcast_command=DAPC&broadcast_argument=' + $(this).val());
-            });
-            $("#" + device_signature + "_value").val(0).slider("refresh");
-        	break;        	
-        }
         }
     // Device representation already exists 
     } else if (device != 'register' && device != 'owbus') {
@@ -884,23 +868,23 @@ function syncDevice(msg) {
         label.innerHTML = device_properties["device_name"];
         // Set device-specific data
         switch(device) {
-        case "relay": {
+        case "ro": {
             //unbind to prevent looping
         	$('#' + main_el.id).unbind("change");
             $("#" + device_signature + "_value").val(device_properties["value"]).flipswitch("refresh");
             //and bind again
             $('#' + main_el.id).bind("change", function (event, ui) {
-                makePostRequest('relay/' + circuit, 'value=' + $(this).val());
+                makePostRequest('ro/' + circuit, 'value=' + $(this).val());
             });
             break;
         }
-		case "output": {
+		case "do": {
 			//unbind to prevent looping
 			$('#' + main_el.id).unbind("change");
 			$("#" + device_signature + "_value").val(device_properties["value"]).flipswitch("refresh");
 			//and bind again
 			$('#' + main_el.id).bind("change", function (event, ui) {
-				makePostRequest('output/' + circuit, 'value=' + $(this).val());
+				makePostRequest('do/' + circuit, 'value=' + $(this).val());
 			});
 			break;
 		}
@@ -918,7 +902,7 @@ function syncDevice(msg) {
             $("#" + device_signature + "_value").val(device_properties["value"]).slider("refresh");
             break;
         }
-        case "input": {
+        case "di": {
             if (msg.counter_mode != "Disabled") {
                 var counter_el = document.getElementById(device_signature + "_counter");
                 //counter_el.innerHTML = counter;
