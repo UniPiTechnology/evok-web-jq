@@ -24,7 +24,7 @@ var timer = null;
 
 var device_counts = {};
 var wd_device_cache = [];
-configuratible_devices = ["di", "ro", "do", "di", "do", "ai", "ao", "led", "wd", "temp"]
+configuratible_devices = ["di", "ro", "do", "ai", "ao", "led", "wd", "temp"]
 
 function compare(a,b) {
 	  if (a.circuit < b.circuit) {
@@ -316,7 +316,7 @@ function getConfigurationFormTitle(device) {
 	case "led": {
 		return "User LED Configuration";
 	}
-	case di: {
+	case "di": {
 		return "Digital Input Configuration";
 	}
 	case "uart": {
