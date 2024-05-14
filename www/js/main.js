@@ -403,8 +403,8 @@ function getDeviceCategoryName(device) {
 	case "register": {
 		return "Modbus Registers";
 	}
-	case "unit_register": {
-		return "Modbus Registers";
+	case "data_point": {
+		return "Data point";
 	}
 	default: {
 		return "Unknown Device Type";
@@ -570,7 +570,7 @@ function extractDeviceProperties(device, circuit, circuit_display_name, msg) {
 		device_properties["device_mb_type"] = msg.modbus_type
 		break;
 	}
-    case "unit_register": {
+    case "data_point": {
             if (msg.value.toString().includes(".")){
                 device_properties["value"] = msg.value.toFixed(2);
             }
@@ -830,13 +830,13 @@ function syncDevice(msg) {
         }
         case "1wdevice": {}
         case "temp": {
-            var divider = document.getElementById("unipi_unit_register_divider");
+            var divider = document.getElementById("unipi_data_point_divider");
             var list = document.getElementById("inputs_list");
             list.insertBefore(li, divider);
             $('#inputs_list').listview('refresh');
         	break;       	
         }
-        case "unit_register": {
+        case "data_point": {
             $('#inputs_list').append(li);
             $('#inputs_list').listview('refresh');
         	break;       	
