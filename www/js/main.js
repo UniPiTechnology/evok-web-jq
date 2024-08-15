@@ -453,7 +453,7 @@ function getDeviceDisplayName() {
 function extractDeviceProperties(device, circuit, circuit_display_name, msg) {
 	var device_properties = {};
     device_properties["device_name"] = "";
-    device_properties["typ"] = msg.typ;
+    device_properties["type"] = msg.type;
     device_properties["value"] = msg.value;
     device_properties["humidity"] = "N/A";
     device_properties["unit"] = "";
@@ -534,7 +534,7 @@ function extractDeviceProperties(device, circuit, circuit_display_name, msg) {
 	}
 	case "temp": {}
 	case "1wdevice": {
-		if (device_properties["typ"] == "DS2438") {
+		if (device_properties["type"] == "DS2438") {
 			device_properties["device_name"] = "Sensor " + "1W-TH" + " - " + circuit_display_name;
 	        if (msg.temp == null) {
 	        	device_properties["value"] = "N/A";
@@ -546,7 +546,7 @@ function extractDeviceProperties(device, circuit, circuit_display_name, msg) {
 	        	device_properties["unit"] = "&deg;C";
 	        }   	
 		} else {
-			device_properties["device_name"] = "Sensor " + device_properties["typ"] + " - " + circuit_display_name;
+			device_properties["device_name"] = "Sensor " + device_properties["type"] + " - " + circuit_display_name;
 	        if (msg.value == null) {
 	        	device_properties["value"] = "N/A";
 	        }
@@ -915,7 +915,7 @@ function syncDevice(msg) {
             break;
         }
         case "1wdevice": {
-        	if (device_properties["typ"] == "DS2438") {
+        	if (device_properties["type"] == "DS2438") {
             	main_el.innerHTML = "" + device_properties["humidity"] + " %<br>" + device_properties["value"] + " " + device_properties["unit"];            		
         	}
         	break;
